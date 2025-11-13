@@ -11,7 +11,7 @@ import { WeatherData, BetOption } from '../../models/weather.model';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  location: string = 'London';
+  location: string = 'Athens, Ohio';
   weatherData: WeatherData | null = null;
   betOptions: BetOption[] = [];
   loading: boolean = false;

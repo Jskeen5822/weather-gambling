@@ -18,7 +18,7 @@ interface DayBet {
   styleUrls: ['./betting.component.scss']
 })
 export class BettingComponent implements OnInit {
-  location: string = 'London';
+  location: string = 'Athens, Ohio';
   days: DayBet[] = [];
   selectedDay: DayBet | null = null;
   selectedOption: BetOption | null = null;
