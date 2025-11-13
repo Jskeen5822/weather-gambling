@@ -1,3 +1,4 @@
+  today = new Date();
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { WeatherService } from '../../services/weather.service';
