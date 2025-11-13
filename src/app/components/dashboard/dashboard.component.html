@@ -23,19 +23,25 @@
         {{ error }}
       </div>
 
-      <div *ngIf="weatherData && !loading" class="weather-card">
-        <h2 class="weather-location">{{ weatherData.location }}</h2>
-        <div class="weather-main">
+      <div *ngIf="weatherData && !loading" class="weather-card realistic-weather-card">
+        <div class="weather-card-header">
+          <div class="weather-card-main">
+            <img *ngIf="weatherData.icon" [src]="weatherData.icon" alt="Weather Icon" class="weather-icon" />
+            <div>
+              <h2 class="weather-location">{{ weatherData.location }}</h2>
+              <div class="weather-date">{{ weatherData.date || (today | date:'fullDate') }}</div>
+            </div>
+          </div>
           <div class="temperature">{{ weatherData.temperature }}°C</div>
-          <div class="condition">{{ weatherData.description }}</div>
         </div>
-        <div class="weather-details">
+        <div class="weather-description">{{ weatherData.description }}</div>
+        <div class="weather-details realistic-details">
           <div class="detail-item">
             <span class="detail-label">Humidity</span>
             <span class="detail-value">{{ weatherData.humidity }}%</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">Wind Speed</span>
+            <span class="detail-label">Wind</span>
             <span class="detail-value">{{ weatherData.windSpeed }} km/h</span>
           </div>
           <div class="detail-item">
