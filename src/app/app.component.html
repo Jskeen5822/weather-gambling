@@ -1,7 +1,35 @@
-<div class="app-container">
-  <app-nav-header></app-nav-header>
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
+<div class="weather-bg">
+  <svg class="weather-svg-bg" viewBox="0 0 1440 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#a1c4fd"/>
+        <stop offset="100%" stop-color="#c2e9fb"/>
+      </linearGradient>
+      <radialGradient id="sunGradient" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%" stop-color="#fffde4"/>
+        <stop offset="100%" stop-color="#f9d423"/>
+      </radialGradient>
+    </defs>
+    <rect width="1440" height="400" fill="url(#skyGradient)"/>
+    <circle cx="220" cy="120" r="60" fill="url(#sunGradient)" opacity="0.8">
+      <animate attributeName="cy" values="120;110;120" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Clouds -->
+    <ellipse cx="400" cy="180" rx="90" ry="32" fill="#fff" opacity="0.7">
+      <animate attributeName="cx" values="400;600;400" dur="18s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="700" cy="100" rx="70" ry="24" fill="#fff" opacity="0.6">
+      <animate attributeName="cx" values="700;900;700" dur="22s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="1100" cy="160" rx="100" ry="36" fill="#fff" opacity="0.5">
+      <animate attributeName="cx" values="1100;1300;1100" dur="28s" repeatCount="indefinite"/>
+    </ellipse>
+  </svg>
+  <div class="app-container">
+    <app-nav-header></app-nav-header>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
 
