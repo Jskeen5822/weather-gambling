@@ -1,0 +1,58 @@
+<div class="bet-history">
+  <div class="history-header">
+    <h2 class="section-title">Bet History</h2>
+    <button class="clear-btn" (click)="clearHistory()" *ngIf="(bets$ | async)?.length">
+      Clear History
+    </button>
+  </div>
+
+  <div class="bets-list" *ngIf="(bets$ | async)?.length; else noBets">
+    <div 
+      *ngFor="let bet of bets$ | async" 
+      class="bet-item"
+      [ngClass]="{'won': bet.resolved && bet.won, 'lost': bet.resolved && !bet.won, 'pending': !bet.resolved}"
+    >
+      <div class="bet-main">
+        <div class="bet-info">
+          <h3 class="bet-label">{{ bet.option.label }}</h3>
+          <p class="bet-location">{{ bet.location }}</p>
+          <p class="bet-time">{{ bet.timestamp | date:'short' }}</p>
+        </div>
+        <div class="bet-amounts">
+          <div class="amount-item">
+            <span class="amount-label">Bet:</span>
+            <span class="amount-value">${{ bet.amount | number:'1.2-2' }}</span>
+          </div>
+          <div class="amount-item" *ngIf="bet.resolved">
+            <span class="amount-label">{{ bet.won ? 'Won' : 'Lost' }}:</span>
+            <span class="amount-value" [ngClass]="bet.won ? 'won' : 'lost'">
+              {{ bet.won ? '+' : '-' }}${{ bet.won ? (bet.payout || 0) : bet.amount | number:'1.2-2' }}
+            </span>
+          </div>
+          <div class="amount-item" *ngIf="!bet.resolved">
+            <span class="amount-label">Potential:</span>
+            <span class="amount-value potential">
+              ${{ (bet.amount * bet.option.odds) | number:'1.2-2' }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="bet-status">
+        <span class="status-badge" [ngClass]="{
+          'status-won': bet.resolved && bet.won,
+          'status-lost': bet.resolved && !bet.won,
+          'status-pending': !bet.resolved
+        }">
+          {{ bet.resolved ? (bet.won ? 'Won' : 'Lost') : 'Pending' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noBets>
+    <div class="no-bets">
+      <p>No bets placed yet. Start betting to see your history here!</p>
+    </div>
+  </ng-template>
+</div>
+

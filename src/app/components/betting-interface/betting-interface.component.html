@@ -1,0 +1,57 @@
+<div class="betting-interface">
+  <h2 class="section-title">Place Your Bet</h2>
+
+  <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+    {{ message }}
+  </div>
+
+  <div class="bet-options">
+    <div 
+      *ngFor="let option of betOptions" 
+      class="bet-option"
+      [ngClass]="{'selected': selectedOption?.id === option.id}"
+      (click)="selectOption(option)"
+    >
+      <div class="option-header">
+        <h3 class="option-label">{{ option.label }}</h3>
+        <div class="odds-badge">Odds: {{ option.odds }}x</div>
+      </div>
+      <p class="option-description">{{ option.description }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="selectedOption" class="bet-form">
+    <div class="form-group">
+      <label for="betAmount">Bet Amount ($)</label>
+      <input 
+        type="number" 
+        id="betAmount"
+        [(ngModel)]="betAmount" 
+        (input)="onAmountChange()"
+        min="1"
+        [max]="walletService.getBalance()"
+        class="amount-input"
+      />
+    </div>
+
+    <div class="payout-info">
+      <div class="payout-item">
+        <span class="payout-label">Potential Payout:</span>
+        <span class="payout-value">${{ potentialPayout | number:'1.2-2' }}</span>
+      </div>
+      <div class="payout-item">
+        <span class="payout-label">Profit:</span>
+        <span class="payout-value profit">${{ (potentialPayout - betAmount) | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <button 
+      class="place-bet-btn"
+      (click)="placeBet()"
+      [disabled]="betAmount <= 0 || betAmount > walletService.getBalance()"
+    >
+      Place Bet
+    </button>
+  </div>
+</div>
+

@@ -1,0 +1,60 @@
+<div class="dashboard">
+  <header class="dashboard-header">
+    <h1 class="title">Weather Gambling</h1>
+    <app-wallet-display></app-wallet-display>
+  </header>
+
+  <div class="dashboard-content">
+    <div class="weather-section">
+      <div class="location-input-container">
+        <input 
+          type="text" 
+          [(ngModel)]="location" 
+          (keyup.enter)="onLocationChange()"
+          placeholder="Enter city name..."
+          class="location-input"
+        />
+        <button (click)="loadWeatherData()" class="search-btn" [disabled]="loading">
+          {{ loading ? 'Loading...' : 'Search' }}
+        </button>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <div *ngIf="weatherData && !loading" class="weather-card">
+        <h2 class="weather-location">{{ weatherData.location }}</h2>
+        <div class="weather-main">
+          <div class="temperature">{{ weatherData.temperature }}°C</div>
+          <div class="condition">{{ weatherData.description }}</div>
+        </div>
+        <div class="weather-details">
+          <div class="detail-item">
+            <span class="detail-label">Humidity</span>
+            <span class="detail-value">{{ weatherData.humidity }}%</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Wind Speed</span>
+            <span class="detail-value">{{ weatherData.windSpeed }} km/h</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Condition</span>
+            <span class="detail-value">{{ weatherData.condition }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="betting-section">
+      <app-betting-interface 
+        *ngIf="weatherData"
+        [betOptions]="betOptions"
+        [weatherData]="weatherData"
+      ></app-betting-interface>
+    </div>
+  </div>
+
+  <app-bet-history></app-bet-history>
+</div>
+

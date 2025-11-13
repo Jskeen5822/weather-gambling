@@ -1,0 +1,10 @@
+<div class="wallet-display">
+  <div class="wallet-info">
+    <div class="balance-label">Balance</div>
+    <div class="balance-amount">${{ balance$ | async | number:'1.2-2' }}</div>
+  </div>
+  <button class="reset-btn" (click)="resetWallet()" title="Reset wallet to $200">
+    Reset
+  </button>
+</div>
+
