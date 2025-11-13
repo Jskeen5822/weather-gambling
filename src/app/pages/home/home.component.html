@@ -1,0 +1,71 @@
+<div class="home-page">
+  <div class="location-search">
+    <input 
+      type="text" 
+      [(ngModel)]="location" 
+      (keyup.enter)="onLocationChange()"
+      placeholder="Enter city name..."
+      class="location-input"
+    />
+    <button (click)="loadWeatherData()" class="search-btn" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Search' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="weatherData && !loading" class="weather-display">
+    <div class="weather-main-card">
+      <h2 class="weather-location">{{ weatherData.location }}</h2>
+      <div class="temperature-display">
+        <span class="temperature-value">{{ weatherData.temperature }}</span>
+        <span class="temperature-unit">°C</span>
+      </div>
+      <div class="condition-display">
+        <span class="condition-text">{{ weatherData.description }}</span>
+      </div>
+    </div>
+
+    <div class="weather-details-grid">
+      <div class="detail-card">
+        <div class="detail-icon">🌡️</div>
+        <div class="detail-content">
+          <div class="detail-label">Temperature</div>
+          <div class="detail-value">{{ weatherData.temperature }}°C</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">💧</div>
+        <div class="detail-content">
+          <div class="detail-label">Humidity</div>
+          <div class="detail-value">{{ weatherData.humidity }}%</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">💨</div>
+        <div class="detail-content">
+          <div class="detail-label">Wind Speed</div>
+          <div class="detail-value">{{ weatherData.windSpeed }} km/h</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">☁️</div>
+        <div class="detail-content">
+          <div class="detail-label">Condition</div>
+          <div class="detail-value">{{ weatherData.condition }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading weather data...</p>
+  </div>
+</div>
+

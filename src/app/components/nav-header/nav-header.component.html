@@ -1,0 +1,24 @@
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h1 class="brand-title">Climabet</h1>
+    </div>
+    
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
+      <a routerLink="/betting" routerLinkActive="active" class="nav-link">Betting</a>
+      <a routerLink="/stats" routerLinkActive="active" class="nav-link">Stats</a>
+    </div>
+
+    <div class="nav-wallet">
+      <div class="wallet-info">
+        <span class="wallet-label">Balance</span>
+        <span class="wallet-amount">${{ balance$ | async | number:'1.2-2' }}</span>
+      </div>
+      <button class="reset-btn" (click)="resetWallet()" title="Reset wallet to $200">
+        Reset
+      </button>
+    </div>
+  </div>
+</nav>
+

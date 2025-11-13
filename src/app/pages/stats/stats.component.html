@@ -1,0 +1,123 @@
+<div class="stats-page">
+  <h1 class="page-title">Your Statistics</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">Win/Loss</div>
+        <div class="stat-value">
+          <span class="wins">{{ stats.wins }}W</span>
+          <span class="separator">/</span>
+          <span class="losses">{{ stats.losses }}L</span>
+        </div>
+        <div class="stat-subvalue">Win Rate: {{ getWinRate() | number:'1.1-1' }}%</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-label">Money Made</div>
+        <div class="stat-value" [ngClass]="stats.moneyMade >= 0 ? 'positive' : 'negative'">
+          {{ stats.moneyMade >= 0 ? '+' : '' }}${{ stats.moneyMade | number:'1.2-2' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🎲</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Bets Placed</div>
+        <div class="stat-value">{{ stats.totalBets }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💵</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Currency</div>
+        <div class="stat-value">${{ stats.totalCurrency | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <div class="stat-label">Average Odds</div>
+        <div class="stat-value">{{ stats.avgOdds | number:'1.2-2' }}x</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-section">
+    <div class="chart-card">
+      <h2 class="chart-title">Win/Loss Distribution</h2>
+      <div class="pie-chart">
+        <svg viewBox="0 0 200 200" class="pie-svg">
+          <circle
+            cx="100"
+            cy="100"
+            r="80"
+            fill="none"
+            stroke="#4caf50"
+            stroke-width="40"
+            [attr.stroke-dasharray]="getWinLossRatio().wins * 2.513 + ' ' + (getWinLossRatio().losses * 2.513)"
+            [attr.stroke-dashoffset]="0"
+            transform="rotate(-90 100 100)"
+          />
+          <circle
+            cx="100"
+            cy="100"
+            r="80"
+            fill="none"
+            stroke="#f44336"
+            stroke-width="40"
+            [attr.stroke-dasharray]="getWinLossRatio().losses * 2.513 + ' ' + (getWinLossRatio().wins * 2.513)"
+            [attr.stroke-dashoffset]="-(getWinLossRatio().wins * 2.513)"
+            transform="rotate(-90 100 100)"
+          />
+        </svg>
+        <div class="pie-legend">
+          <div class="legend-item">
+            <span class="legend-color wins"></span>
+            <span>Wins: {{ stats.wins }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color losses"></span>
+            <span>Losses: {{ stats.losses }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h2 class="chart-title">Betting History</h2>
+      <div class="bet-history-list">
+        <div *ngFor="let bet of bets$ | async" class="bet-history-item" [ngClass]="{'won': bet.resolved && bet.won, 'lost': bet.resolved && !bet.won, 'pending': !bet.resolved}">
+          <div class="bet-history-main">
+            <div class="bet-history-info">
+              <div class="bet-history-label">{{ bet.option.label }}</div>
+              <div class="bet-history-meta">{{ bet.location }} • {{ bet.timestamp | date:'short' }}</div>
+            </div>
+            <div class="bet-history-amounts">
+              <div class="bet-amount">${{ bet.amount | number:'1.2-2' }}</div>
+              <div class="bet-status" *ngIf="bet.resolved">
+                <span [ngClass]="bet.won ? 'status-won' : 'status-lost'">
+                  {{ bet.won ? 'Won' : 'Lost' }}
+                </span>
+              </div>
+              <div class="bet-status" *ngIf="!bet.resolved">
+                <span class="status-pending">Pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="(bets$ | async)?.length === 0" class="no-bets">
+          <p>No bets placed yet. Start betting to see your history!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
